@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const {ApolloServer,gql} = require('apollo-server');
+const consola = require('consola');
 
 const parseYAML = require('./config.parser.js');
 
@@ -180,7 +181,7 @@ function graphQLFactory(typeDefsType,resolvers,PORT){
     });
 
     server.listen(PORT).then(({url}) => {
-        console.log(`Server started at ${url}`);
+        consola.success(`Server started at ${url}`);
     });
 }
 
