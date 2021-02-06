@@ -1,1 +1,2 @@
-require('./lib.js')('mongographql.config.yaml');
+// this is the whole server
+require('./lib.js')('sample.yaml');
