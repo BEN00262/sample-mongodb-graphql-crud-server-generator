@@ -5,7 +5,7 @@ const consola = require('consola');
 
 function parseYAML(CONFIG_FILE_NAME){
     if (!fs.existsSync(CONFIG_FILE_NAME)){
-        consola.error(`${CONFIG_FILE_NAME} does not exist`));
+        consola.error(`${CONFIG_FILE_NAME} does not exist`);
         process.exit(1);
     }
 
