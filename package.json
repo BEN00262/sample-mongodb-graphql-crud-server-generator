@@ -1,13 +1,17 @@
 {
   "name": "mongoGraphQL",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "a simple graphql mongodb orchestration package. Still working on it",
+  "main": "lib.js",
   "scripts": {
-    "test": "node index.js"
+    "example": "node example.js"
   },
   "keywords": [],
-  "author": "",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/BEN00262/sample-mongodb-graphql-crud-server-generator.git"
+  },
+  "author": "John Kerama",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.2",
