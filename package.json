@@ -1,6 +1,6 @@
 {
   "name": "@jk/graphql-mongodb-orchestration",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a simple graphql mongodb orchestration package. Still working on it",
   "main": "index.js",
   "scripts": {
