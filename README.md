@@ -2,6 +2,7 @@
 
 ## sample config file
 ```yaml:
+#sample.config.yaml
 schemas:
   car:
     name:
