@@ -95,32 +95,26 @@ class GraphQLSchema {
         // create the resolvers here
         let _get = () => {
             return this.getModel(typeName).find()
-                .then(data => {
-                    return data.toObject();
-                })
+                .then(data => data)
                 .catch((error) => {
                     console.log(error);
                     return null;
                 })
         }
 
-        let _get_by_id = (id) => {
-            return this.getModel(typeName).find({
-                _id:id
-            })
-                .then(data => {
-                    return data.toObject();
-                })
+        let _get_by_id = (filter) => {
+            return this.getModel(typeName).find(filter)
+                .then(data => data.toObject())
                 .catch((error) => {
-                    console.log(error)
+                    console.log(error);
                     return null;
                 })
         }
 
         this.resolvers.Query = {
             ...this.resolvers.Query,
-            [`get${typeName}`]:() => _get,
-            [`get${typeName}ById`]:(_,{id}) => _get_by_id(id)
+            [`get${typeName}`]:() => _get(),
+            [`get${typeName}ById`]:(_,{id}) => _get_by_id({_id:id})
         }
     }
 
@@ -136,9 +130,8 @@ class GraphQLSchema {
 
         // create the resolvers here
         let _create = (args) => {
-            new this.getModel(typeName)({
-                ...args
-            })
+            let modelFound = this.getModel(typeName);
+            return modelFound(args)
                 .save()
                 .then(saved => {
                     return saved.toObject();
@@ -170,7 +163,7 @@ class GraphQLSchema {
 
         this.resolvers.Mutation = {
             ...this.resolvers.Mutation,
-            [`create${typeName}`]:(_,args) => _create(args),
+            [`create${typeName}`]:(_,args) => _create(args[typeName.toLowerCase()]),
             [`remove${typeName}ById`]:(_,{id}) => _remove(id)
         }
     }
@@ -180,6 +173,7 @@ class GraphQLSchema {
 
 // create a graphql factory
 function graphQLFactory(typeDefsType,resolvers,PORT){
+
     const server = new ApolloServer({
         typeDefs: gql`${typeDefsType}`,
         resolvers

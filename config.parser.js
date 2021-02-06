@@ -3,7 +3,6 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 
-
 function parseYAML(CONFIG_FILE_NAME){
     if (!fs.existsSync(CONFIG_FILE_NAME)){
         console.log(chalk.redBright(`${chalk.bgGreenBright(chalk.white(CONFIG_FILE_NAME))} does not exist`));
