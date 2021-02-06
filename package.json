@@ -1,5 +1,5 @@
 {
-  "name": "@JK/graphQL-Mongodb-orchestration",
+  "name": "@jk/graphQL-Mongodb-orchestration",
   "version": "1.0.1",
   "description": "a simple graphql mongodb orchestration package. Still working on it",
   "main": "index.js",
@@ -8,14 +8,15 @@
   },
   "keywords": [],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/BEN00262/sample-mongodb-graphql-crud-server-generator.git"
+    "type": "git",
+    "url": "https://github.com/BEN00262/sample-mongodb-graphql-crud-server-generator.git"
   },
   "author": "John Kerama",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.2",
     "chalk": "^4.1.0",
+    "consola": "^2.15.2",
     "graphql": "^15.5.0",
     "mongoose": "^5.11.15",
     "yaml": "^1.10.0"
