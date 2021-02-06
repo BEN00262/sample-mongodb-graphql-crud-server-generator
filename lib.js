@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const {ApolloServer,gql} = require('apollo-server');
 
+const parseYAML = require('./config.parser.js');
+
 // work on this more
 let mapper = {
     'Number':'Int',
@@ -13,8 +15,8 @@ function mongooseTypesToGraphQLTypes(mongooseType){
 }
 
 class GraphQLSchema {
-    constructor(connectionObject){
-        this.connectionObject = connectionObject;
+    constructor(mongoose_models){
+        this.mongoose_models = mongoose_models;
         this.generalTypes = `
             type Response {
                 success: Boolean!
@@ -24,12 +26,8 @@ class GraphQLSchema {
         this.generalQueries = '';
         this.generalMutations = '';
         this.resolvers = {
-            Query:{
-
-            },
-            Mutation:{
-
-            }
+            Query:{},
+            Mutation:{}
         }
     }
 
@@ -127,7 +125,7 @@ class GraphQLSchema {
     }
 
     getModel(typeName){
-        return this.connectionObject.model(typeName);
+        return this.mongoose_models[typeName];
     }
 
     generateGraphQLMutation(typeName){
@@ -155,7 +153,7 @@ class GraphQLSchema {
             return this.getModel(typeName).deleteOne({
                 _id:id
             })
-                .then(data => {
+                .then(_ => {
                     return {
                         success: true,
                         message:`successfully deleted ${typeName}`
@@ -192,13 +190,15 @@ function graphQLFactory(typeDefsType,resolvers,PORT){
     });
 }
 
-function createServer(SAMPLE_DB,PORT = process.env.PORT || 3000){
-    mongoose.connect(SAMPLE_DB,{
+function createServer(yaml_config_file){
+    const { config, models } = parseYAML(yaml_config_file);
+
+    mongoose.connect(config.mongoURI,{
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
         .then(_ => {
-            const gSchema = new GraphQLSchema(mongoose);
+            const gSchema = new GraphQLSchema(models);
             const mongooseModels = mongoose.modelNames();
     
             mongooseModels.forEach(sampleModel => {
@@ -215,7 +215,9 @@ function createServer(SAMPLE_DB,PORT = process.env.PORT || 3000){
                 gSchema.generateGraphQLMutation(sampleModel);
             });
     
-            graphQLFactory(gSchema.getSchema(),gSchema.getResolvers(),PORT);
+            let typeDefs = gSchema.getSchema();
+            let resolvers = gSchema.getResolvers();
+            graphQLFactory(typeDefs,resolvers,config.port);
         })
         .catch(console.log);
 }
