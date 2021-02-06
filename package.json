@@ -2,7 +2,7 @@
   "name": "@jk/graphql-mongodb-orchestration",
   "version": "1.0.0",
   "description": "a simple graphql mongodb orchestration package. Still working on it",
-  "main": "lib.js",
+  "main": "index.js",
   "scripts": {
     "example": "node example.js"
   },
