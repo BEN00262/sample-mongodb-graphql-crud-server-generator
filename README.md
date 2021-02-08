@@ -1,4 +1,4 @@
-## mongodb graphql crud server generator
+# The Happy GraphQL Backend framework
 
 ## for a scaffolded server
 ## sample config file
@@ -16,7 +16,9 @@ config:
 ```
 
 ```javascript:
-require('./lib.js')('sample.config.yaml',true); //this creates a scaffold server
+const { HappyGraphQL } = require('../lib');
+
+HappyGraphQL('sample.yaml',true);
 ```
 
 ## for a custom server
@@ -51,10 +53,11 @@ config:
 
 ```javascript:
 // custom_resolver.js
+const { HappyGraphQLResolver } = require('../lib');
 
-const Resolvers = require('./resolver.generator.js');
+const Resolver = HappyGraphQLResolver();
 
-Resolvers.Query('getCars:[car]!',async (parent,args,{models}) => {
+Resolver.Query('getCars:[car]!',async (parent,args,{models}) => {
     try{
         let cars = await models.car.find();
         return cars;
@@ -64,7 +67,7 @@ Resolvers.Query('getCars:[car]!',async (parent,args,{models}) => {
     }
 });
 
-Resolvers.Query('getUsers:[user]!',async (parent,args,{models}) => {
+Resolver.Query('getUsers:[user]!',async (parent,args,{models}) => {
     try{
         let people = await models.user.find();
         return people;
@@ -74,7 +77,7 @@ Resolvers.Query('getUsers:[user]!',async (parent,args,{models}) => {
     }
 });
 
-Resolvers.Mutation('createUser(name: String!, age: Int!):user',async (parent,{name,age},{models}) => {
+Resolver.Mutation('createUser(name: String!, age: Int!):user',async (parent,{name,age},{models}) => {
     try{
         let createdUser = await new models.user({
             name,
@@ -88,11 +91,13 @@ Resolvers.Mutation('createUser(name: String!, age: Int!):user',async (parent,{na
     }
 });
 
-module.exports = Resolvers;
+module.exports = Resolver;
 ```
 
 ```javascript:
-require('./lib.js')('sample.config.yaml',false); //GraphQL server with custom resolvers
+const { HappyGraphQL } = require('../lib');
+
+HappyGraphQL('sample.yaml',false);
 ```
 
 thats all it takes to bootstrap a graphql server using mongodb in javascript
