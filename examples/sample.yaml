@@ -19,7 +19,7 @@ schemas:
         - 'mid-level'
         - senior
 
-resolvers: '../examples/custom_resolvers.js'
+resolvers: '../examples/main_resolvers.js'
 
 config:
   port: 5000

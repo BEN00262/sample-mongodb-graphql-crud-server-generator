@@ -1,8 +1,8 @@
-const {HappyGraphQLResolver} = require('../lib');
+const { HappyGraphQLResolver } = require('../lib');
 
 const Resolver = HappyGraphQLResolver();
 
-// introduce logical groupings in the resolvers later on though
+
 Resolver.Query('getCars:[car]!',async (parent,args,{models}) => {
     try{
         let cars = await models.car.find();
