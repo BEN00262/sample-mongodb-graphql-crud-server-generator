@@ -1,0 +1,26 @@
+schemas:
+  car:
+    name:
+      type: String
+      required: true
+
+  user:
+    name:
+      type: String
+      required: true
+    age:
+      type: Number
+      required: true
+    position:
+      type: String
+      default: junior
+      enum:
+        - junior
+        - 'mid-level'
+        - senior
+
+resolvers: '../examples/custom_resolvers.js'
+
+config:
+  port: 5000
+  mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'
