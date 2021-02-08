@@ -2,7 +2,7 @@ const Resolvers = require('./resolver.generator.js');
 
 Resolvers.Query('getCars:[car]!',async (parent,args,{models}) => {
     try{
-        let cars = await models.cars.find();
+        let cars = await models.car.find();
         return cars;
     }catch(error){
         console.log(error);
