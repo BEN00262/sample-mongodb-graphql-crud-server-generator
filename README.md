@@ -1,6 +1,6 @@
 # The Happy GraphQL Backend framework
 
-## for a scaffolded server
+## Scaffolded server
 ## sample config file
 ```yaml:
 #sample.config.yaml
@@ -21,7 +21,7 @@ const { HappyGraphQL } = require('../lib');
 HappyGraphQL('sample.yaml',true);
 ```
 
-## for a custom server
+## Custom resolver server
 ```yaml:
 schemas:
   car:
