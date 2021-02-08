@@ -1,5 +1,6 @@
 ## mongodb graphql crud server generator
 
+## for a scaffolded server
 ## sample config file
 ```yaml:
 #sample.config.yaml
@@ -15,7 +16,83 @@ config:
 ```
 
 ```javascript:
-require('./lib.js')('sample.config.yaml');
+require('./lib.js')('sample.config.yaml',true); //this creates a scaffold server
+```
+
+## for a custom server
+```yaml:
+schemas:
+  car:
+    name:
+      type: String
+      required: true
+
+  user:
+    name:
+      type: String
+      required: true
+    age:
+      type: Number
+      required: true
+    position:
+      type: String
+      default: junior
+      enum:
+        - junior
+        - 'mid-level'
+        - senior
+
+resolvers: './custom_resolvers.js' #filename containing the resolvers
+
+config:
+  port: 5000
+  mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'
+```
+
+```javascript:
+// custom_resolver.js
+
+const Resolvers = require('./resolver.generator.js');
+
+Resolvers.Query('getCars:[car]!',async (parent,args,{models}) => {
+    try{
+        let cars = await models.cars.find();
+        return cars;
+    }catch(error){
+        console.log(error);
+        return [];
+    }
+});
+
+Resolvers.Query('getUsers:[user]!',async (parent,args,{models}) => {
+    try{
+        let people = await models.user.find();
+        return people;
+    }catch(error){
+        console.log(error);
+        return [];
+    }
+});
+
+Resolvers.Mutation('createUser(name: String!, age: Int!):user',async (parent,{name,age},{models}) => {
+    try{
+        let createdUser = await new models.user({
+            name,
+            age
+        }).save();
+
+        return createdUser ? createdUser.toObject() : null;
+    }catch(error){
+        console.log(error);
+        return null;
+    }
+});
+
+module.exports = Resolvers;
+```
+
+```javascript:
+require('./lib.js')('sample.config.yaml',false); //GraphQL server with custom resolvers
 ```
 
 thats all it takes to bootstrap a graphql server using mongodb in javascript

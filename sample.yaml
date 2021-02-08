@@ -19,6 +19,8 @@ schemas:
         - 'mid-level'
         - senior
 
+resolvers: './custom_resolvers.js' #this is a file pointing to the user defined resolvers
+
 config:
   port: 5000
   mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'

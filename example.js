@@ -1,2 +1,2 @@
 // this is the whole server
-require('./lib.js')('sample.yaml');
+require('./lib.js')('sample.yaml',false);

@@ -10,7 +10,7 @@ function parseYAML(CONFIG_FILE_NAME){
     }
 
     const file = fs.readFileSync(CONFIG_FILE_NAME,'utf8');
-    const {schemas,config} = yaml.parse(file);
+    const { schemas,config, resolvers } = yaml.parse(file);
 
     if (!schemas || !config){
         consola.error('Invalid configuration file.\nCheck the docs at http://localhost:5000/');
@@ -31,7 +31,8 @@ function parseYAML(CONFIG_FILE_NAME){
 
     return {
         models,
-        config
+        config,
+        resolvers_config: require(resolvers)
     }
 }
 

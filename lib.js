@@ -32,10 +32,9 @@ class GraphQLSchema {
         }
     }
 
-    getSchema(){
-        return `
-            ${this.generalTypes}
+    getSchema(scaffold = true){
 
+        let optionalTypes =  `
             type Query {
                 ${this.generalQueries}
             }
@@ -43,8 +42,12 @@ class GraphQLSchema {
             type Mutation {
                 ${this.generalMutations}
             }
-        
-        `
+        `;
+
+        return `
+            ${this.generalTypes}
+            ${scaffold ? optionalTypes : ''}
+        `;
     }
 
     getResolvers() {
@@ -124,12 +127,12 @@ class GraphQLSchema {
     }
 
     generateGraphQLMutation(typeName){
+        // all this depends on whether this a certain falg is set
         this.generalMutations += `
                 create${typeName}(${typeName.toLowerCase()}:${typeName}Input!):${typeName}
                 remove${typeName}ById(id:ID!):Response!
         `
 
-        // create the resolvers here
         let _create = (args) => {
             let modelFound = this.getModel(typeName);
             return modelFound(args)
@@ -173,11 +176,17 @@ class GraphQLSchema {
 
 
 // create a graphql factory
-function graphQLFactory(typeDefsType,resolvers,PORT){
-
+function graphQLFactory(typeDefsType,resolvers,models,PORT){
     const server = new ApolloServer({
         typeDefs: gql`${typeDefsType}`,
-        resolvers
+        resolvers,
+        context:(({req}) => {
+            // this is not pretty for now but we will improve later
+            return {
+                ...req,
+                models
+            };
+        })
     });
 
     server.listen(PORT).then(({url}) => {
@@ -185,8 +194,9 @@ function graphQLFactory(typeDefsType,resolvers,PORT){
     });
 }
 
-function createServer(yaml_config_file){
-    const { config, models } = parseYAML(yaml_config_file);
+// scaffold --> true ( lib generates resolvers ) --> false ( you pass your own resolvers )
+function createServer(yaml_config_file,scaffold=true){
+    const { config, models, resolvers_config } = parseYAML(yaml_config_file);
 
     mongoose.connect(config.mongoURI,{
         useNewUrlParser: true,
@@ -206,13 +216,25 @@ function createServer(yaml_config_file){
                 })
     
                 gSchema.generateGraphQLTypes(sampleModel,sampleM);
-                gSchema.generateGraphQLQueries(sampleModel);
-                gSchema.generateGraphQLMutation(sampleModel);
+
+                if (scaffold){
+                    gSchema.generateGraphQLQueries(sampleModel);
+                    gSchema.generateGraphQLMutation(sampleModel);
+                }
+                
             });
-    
-            let typeDefs = gSchema.getSchema();
+
+            let typeDefs = gSchema.getSchema(scaffold);
             let resolvers = gSchema.getResolvers();
-            graphQLFactory(typeDefs,resolvers,config.port);
+
+            if(!scaffold){
+                const { resolvers:custom_resolvers, types } = resolvers_config.getResolvers();
+
+                typeDefs += types;
+                resolvers = custom_resolvers;
+            }
+
+            graphQLFactory(typeDefs,resolvers,models,config.port);
         })
         .catch(console.log);
 }
