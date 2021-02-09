@@ -1,5 +1,5 @@
 {
-  "name": "@happy/happy-graphql-framework",
+  "name": "happy-graphql-framework",
   "version": "1.0.1",
   "description": "a simple graphql mongodb orchestration package. Still working on it",
   "main": "index.js",
