@@ -3,7 +3,6 @@ schemas:
     name:
       type: String
       required: true
-
   user:
     name:
       type: String
@@ -16,12 +15,10 @@ schemas:
       default: junior
       enum:
         - junior
-        - 'mid-level'
+        - mid-level
         - senior
-
-resolvers: 'main_resolvers.js'
-authentication: 'authentication.js'
-
+resolvers: main_resolvers.js
+authentication: authentication.js
 config:
   port: 5000
   mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'

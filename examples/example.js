@@ -1,3 +1,5 @@
 const { HappyGraphQL } = require('../lib');
+const path = require('path');
 
-HappyGraphQL('sample.yaml',false);
+// we need to get the full path here
+HappyGraphQL(path.join(__dirname,'sample.yaml'),false);

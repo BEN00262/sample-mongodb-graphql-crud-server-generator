@@ -21,6 +21,7 @@
     "graphql-shield": "^7.5.0",
     "graphql-validation-complexity": "^0.4.2",
     "mongoose": "^5.11.15",
-    "yaml": "^1.10.0"
+    "yaml": "^1.10.0",
+    "yaml-import": "^2.0.0"
   }
 }
