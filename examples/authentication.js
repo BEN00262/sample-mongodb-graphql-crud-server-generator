@@ -1,4 +1,4 @@
-const authentication = (req) => {
+const authentication = (req,models) => {
     const AuthorizationHeader = req.headers["authorization"];
     const AuthorizationToken =  AuthorizationHeader ? AuthorizationHeader.split(" ")[1] : null;
     
