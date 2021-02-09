@@ -1,9 +1,10 @@
 const { HappyGraphQLResolver } = require('../lib');
+const { isAuthenticated } = require('./permissions.js');
 
 const Resolver = HappyGraphQLResolver();
 
 
-Resolver.Query('getCars:[car]!',async (parent,args,{models}) => {
+Resolver.Query('getCars:[car]!',[isAuthenticated],async (parent,args,{models}) => {
     try{
         let cars = await models.car.find();
         return cars;

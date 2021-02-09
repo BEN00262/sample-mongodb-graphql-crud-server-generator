@@ -20,6 +20,7 @@ schemas:
         - senior
 
 resolvers: '../examples/main_resolvers.js'
+authentication: '../examples/authentication.js'
 
 config:
   port: 5000
