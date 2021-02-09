@@ -6,7 +6,7 @@ const authentication = (req) => {
         try{
            return {
                user: {
-                   name: "John Kerama"
+                   name: "John Doe"
                }
            }
         }catch(error){
