@@ -1,7 +1,7 @@
 # The Happy GraphQL Backend framework
 
 ### Scaffolded server
-```yaml:
+```yaml
 #sample.config.yaml
 schemas:
   car:
@@ -14,14 +14,14 @@ config:
   mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'
 ```
 
-```javascript:
+```javascript
 const { HappyGraphQL } = require('../lib');
 
 HappyGraphQL('sample.yaml',true);
 ```
 
 ### Custom resolver server
-```yaml:
+```yaml
 schemas:
   car:
     name:
@@ -50,7 +50,7 @@ config:
   mongoURI: 'mongodb://127.0.0.1:27017/sampleMe'
 ```
 
-```javascript:
+```javascript
 // custom_resolver.js
 const { HappyGraphQLResolver } = require('../lib');
 
@@ -93,7 +93,7 @@ Resolver.Mutation('createUser(name: String!, age: Int!):user',async (parent,{nam
 module.exports = Resolver;
 ```
 
-```javascript:
+```javascript
 const { HappyGraphQL } = require('../lib');
 
 HappyGraphQL('sample.yaml',false);
