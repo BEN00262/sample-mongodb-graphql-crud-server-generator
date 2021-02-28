@@ -14,7 +14,7 @@ Resolver.Query('getCars:[car]!',[isAuthenticated],async (parent,args,{models}) =
     }
 });
 
-Resolver.Query('getUsers:[user]!',async (parent,args,{models}) => {
+Resolver.Query('getUsers:[user]!',[isAuthenticated],async (parent,args,{models}) => {
     try{
         let people = await models.user.find();
         return people;
@@ -24,7 +24,7 @@ Resolver.Query('getUsers:[user]!',async (parent,args,{models}) => {
     }
 });
 
-Resolver.Mutation('createUser(name: String!, age: Int!):user',async (parent,{name,age},{models}) => {
+Resolver.Mutation('createUser(name: String!, age: Int!):user',[isAuthenticated],async (parent,{name,age},{models}) => {
     try{
         let createdUser = await new models.user({
             name,

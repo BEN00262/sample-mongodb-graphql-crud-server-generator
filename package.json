@@ -1,6 +1,6 @@
 {
   "name": "happy-graphql-framework",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a simple graphql mongodb orchestration package. Still working on it",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,8 @@
     "graphql-middleware": "^6.0.3",
     "graphql-shield": "^7.5.0",
     "graphql-validation-complexity": "^0.4.2",
+    "lru-cache": "^6.0.0",
+    "md5": "^2.3.0",
     "mongoose": "^5.11.15",
     "yaml": "^1.10.0",
     "yaml-import": "^2.0.0"
